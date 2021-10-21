@@ -1,36 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b82fdf42-2313-4f34-8c86-1402f489f570" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/ROS_D435_test.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CustomDQNModel.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CustomPPO2Model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/callbacks.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/d435_test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gazebo_mantis_dqlearn.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gazebo_turtlebot3_Env.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gazebo_turtlebot3_dqlearn.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gym_connect_test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gym_gazebo/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gym_gazebo/envs/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gym_gazebo/envs/gazebo_turtlebot3_Env.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gym_gazebo/types.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lidar_test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mantis_lidar_dqlearn.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plot_training_curve.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_control.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/turtlebot3_DDQN.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/turtlebot3_DDQN_SB.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/turtlebot3_PPO2_SB.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/turtlebot3_lidar_dqlearn.py" afterDir="false" />
+    <list default="true" id="b82fdf42-2313-4f34-8c86-1402f489f570" name="Changes" comment="&lt;type:feat&gt;:&lt;description:first commit&gt;">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gym_gazebo/envs/gazebo_turtlebot3_Env.py" beforeDir="false" afterPath="$PROJECT_DIR$/gym_gazebo/envs/gazebo_turtlebot3_Env.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lidar_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/lidar_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,11 +38,34 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.lidar_test">
+    <configuration name="getOdomData" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ROS_D435_test" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/getOdomData.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="lidar_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ROS_D435_test" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -94,6 +91,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.lidar_test" />
+        <item itemvalue="Python.getOdomData" />
       </list>
     </recent_temporary>
   </component>
@@ -107,8 +105,16 @@
       <updated>1634088544608</updated>
       <workItem from="1634088545910" duration="36116000" />
       <workItem from="1634542281606" duration="18636000" />
-      <workItem from="1634632831022" duration="5101000" />
+      <workItem from="1634632831022" duration="21527000" />
     </task>
+    <task id="LOCAL-00001" summary="&lt;type:feat&gt;:&lt;description:first commit&gt;">
+      <created>1634699467420</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1634699467420</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -125,18 +131,23 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="&lt;type:feat&gt;:&lt;description:first commit&gt;" />
+    <option name="LAST_COMMIT_MESSAGE" value="&lt;type:feat&gt;:&lt;description:first commit&gt;" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/lidar_test.py</url>
-          <line>43</line>
-          <option name="timeStamp" value="8" />
+          <line>78</line>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ROS_D435_test$lidar_test.coverage" NAME="lidar_test Coverage Results" MODIFIED="1634695589324" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ROS_D435_test$getOdomData.coverage" NAME="getOdomData Coverage Results" MODIFIED="1634710556970" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ROS_D435_test$lidar_test.coverage" NAME="lidar_test Coverage Results" MODIFIED="1634782365596" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

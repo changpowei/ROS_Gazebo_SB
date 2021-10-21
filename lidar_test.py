@@ -2,19 +2,15 @@ import rospy
 from sensor_msgs.msg import LaserScan, Image
 import numpy as np
 import math
-from geometry_msgs.msg import Pose2D, PoseStamped
+from geometry_msgs.msg import PoseStamped
 import time
 import threading
 import tf
+import copy
 
 class odom():
     def __init__(self):
-        self.old_robotX = None
-        self.old_robotY = None
-        self.old_yaw = None
-        self.old_time = None
-        self.old_targetX = None
-        self.old_targetY = None
+
         print("Init")
 
     def getLaserData(self):
@@ -37,11 +33,18 @@ class odom():
 
         return yaw, posX, posY of robot known as Pos2D
         '''
-        listener = tf.TransformListener()
-        while True:
-            try:
 
-                (trans, rot) = listener.lookupTransform('/map', '/laser', time=rospy.Duration(0.0))
+        global robotX
+        global robotY
+        global roll
+        global pitch
+        global yaw
+        listener = tf.TransformListener()
+        t = threading.currentThread()
+        rate = rospy.Rate(10.0)
+        while getattr(t, "getOdomData", True):
+            try:
+                (trans, rot) = listener.lookupTransform('/map', '/laser', rospy.Time(0))
                 robotX = trans[0]
                 robotY = trans[1]
                 quatTuple = (
@@ -53,29 +56,33 @@ class odom():
                 roll, pitch, yaw = tf.transformations.euler_from_quaternion(
                     quatTuple)
 
-                now_time = time.time()
-                run_time = now_time - start_time
-
-                if self.old_time == None:
-                    robot_linearVel = 0
-                    robot_angularVel = 0
-
-                else:
-                    time_diff = run_time - self.old_time
-                    robot_linearVel = math.sqrt((robotX - self.old_robotX)**2 + (robotY - self.old_robotY)**2) / time_diff
-                    robot_angularVel = (yaw - self.old_yaw) / time_diff
-
-                self.old_robotX = robotX
-                self.old_robotY = robotY
-                self.old_yaw = yaw
-                self.old_time = run_time
-
-                return yaw, robotX, robotY, robot_linearVel, robot_angularVel, run_time
-
             except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
                 continue
 
-    def calcHeadingAngle(self, targetPointX, targetPointY, yaw, robotX, robotY):
+            rate.sleep()
+
+    def getVelData(self, pre_X, pre_Y, pre_yaw, pre_time):
+
+        now_X = copy.copy(robotX)
+        now_Y = copy.copy(robotY)
+        now_yaw = copy.copy(yaw)
+
+        now_time = time.time()
+        run_time = now_time - start_time
+
+        if pre_time == None:
+            robot_linearVel = 0
+            robot_angularVel = 0
+
+        else:
+            time_diff = run_time - pre_time
+            robot_linearVel = math.sqrt((now_X - pre_X) ** 2 + (now_Y - pre_Y) ** 2) / time_diff
+            robot_angularVel = (now_yaw - pre_yaw) / time_diff
+            # print("Linear = {}, Angular = {}".format(robot_linearVel, robot_angularVel))
+
+        return now_X, now_Y, now_yaw, robot_linearVel, robot_angularVel, run_time
+
+    def calcHeadingAngle(self, targetPointX, targetPointY, now_yaw, now_X, now_Y):
         '''
         Calculate heading angle from robot to target
 
@@ -84,9 +91,9 @@ class odom():
         # targetPointX = self.old_targetX
         # targetPointY = self.old_targetY
 
-        targetAngle = math.atan2(targetPointY - robotY, targetPointX - robotX)
+        targetAngle = math.atan2(targetPointY - now_Y, targetPointX - now_X)
 
-        heading = targetAngle - yaw
+        heading = targetAngle - now_yaw
         if heading > math.pi:
             heading -= 2 * math.pi
 
@@ -98,8 +105,10 @@ class odom():
     def get_target(self):
         global glob_old_targetX
         global glob_old_targetY
-        t = threading.currentThread()
-        while getattr(t, "get_target", True):
+        glob_old_targetX = None
+        glob_old_targetY = None
+        t1 = threading.currentThread()
+        while getattr(t1, "get_target", True):
             try:
                 target_pose = rospy.wait_for_message(topic="/move_base_simple/goal", topic_type=PoseStamped, timeout=5)
                 targetPointX = target_pose.pose.position.x
@@ -123,34 +132,50 @@ class odom():
 if __name__ == '__main__':
     rospy.init_node("odom_processor")
 
-    glob_old_targetX = 0
-    glob_old_targetY = 0
-
     odom = odom()
-    start_time = time.time()
+
+    t_getOdomData = threading.Thread(target=odom.getOdomData)
+    t_getOdomData.start()
 
     t_get_target = threading.Thread(target=odom.get_target)
-    # t_getOdomData = threading.Thread(target=odom.getOdomData)
-
     t_get_target.start()
-    # t_getOdomData.start()
+
+    start_time = time.time()
+
+    pre_X = None
+    pre_Y = None
+    pre_yaw = None
+    pre_time = None
+
+    print("Wait 10 secs for launching all threading.")
+    time.sleep(10)
 
     while True:
 
-        # targetPointX, targetPointY = odom.get_target()
-        yaw, robotX, robotY, robot_linearVel, robot_angularVel, run_time = odom.getOdomData()
+        now_X, now_Y, now_yaw, robot_linearVel, robot_angularVel, run_time = odom.getVelData(pre_X = pre_X, pre_Y = pre_Y,
+                                                                                           pre_yaw = pre_yaw,
+                                                                                           pre_time = pre_time)
 
-        target_heading_ang = odom.calcHeadingAngle(targetPointX = glob_old_targetX, targetPointY = glob_old_targetY,yaw = yaw, robotX = robotX, robotY = robotY)
+        target_heading_ang = odom.calcHeadingAngle(targetPointX = glob_old_targetX, targetPointY = glob_old_targetY,
+                                                   now_yaw = now_yaw, now_X = now_X, now_Y = now_Y)
 
-        print("X:{}".format(robotX))
-        print("Y:{}".format(robotY))
-        print("Theta:{}".format(yaw))
-        print("lidar_linearVel:{}".format(robot_linearVel))
-        print("lidat_angularVel:{}".format(robot_angularVel))
-        print("time:{}".format(run_time))
-        print("heading_angle:{}\n".format(target_heading_ang))
+        print("(X, Y):({:.3f}, {:.3f}), yaw:{:.3f}, linearVel:{:.5f}, angularVel:{:.5f}, heading_angle:{:.3f}, time:{:.3f}".format(now_X,
+                                                                                                       now_Y,
+                                                                                                       now_yaw,
+                                                                                                       robot_linearVel,
+                                                                                                       robot_angularVel,
+                                                                                                       target_heading_ang,
+                                                                                                       run_time))
 
-        if run_time >= 180:
+        pre_X = copy.copy(now_X)
+        pre_Y = copy.copy(now_Y)
+        pre_yaw = copy.copy(now_yaw)
+        pre_time = run_time
+
+        if run_time >= 90:
             print("Fuck")
             t_get_target.get_target = False
+            t_getOdomData.getOdomData = False
             break
+
+        time.sleep(0.3)

@@ -180,7 +180,7 @@ class gazebo_turtlebot3_Env(gym.Env):
 
         return image_normalize
 
-    def Depthcallback(self, msg_depth):  
+    def Depthcallback(self, msg_depth):
         # cv_bridge = CvBridge()
         try:
             """
